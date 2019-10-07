@@ -10,3 +10,21 @@ selecting map data from the table:
   select * from map_data; --{1:"A",2:"B"}
 unpacking the map data type :  
   select map_keys(col)[0],map_keys(col)[1],map_values(col)[0], map_values(col)[1] from map_data;
+
+
+******************************************************************************************************************************
+                                                      ARRAY DATA TYPE:
+******************************************************************************************************************************
+creatung table with array data type :
+  create table array_data(col array<int>);
+Inserting data into table :
+  insert into array_data select array(10,20,30,40);
+selecting array data from the table:
+  select * from array_data; --[10,20,30,40]
+unpacking the array data type :  
+  select col[0],col[1],col[2],col[3] from array_data;
+  
+  
+
+
+
