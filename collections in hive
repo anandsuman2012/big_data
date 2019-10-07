@@ -37,4 +37,30 @@ selecting struct data from the table:
 unpacking the array elements :  
   select col.name,col.subject[0],col.subject[1],map_keys(col.marks)[0],map_keys(col.marks)[1],map_values(col.marks)[0],map_values(col.marks)[1] from struct_data;
 
+******************************************************************************************************************************
+                                                      UNIONTYPE DATA TYPE:
+******************************************************************************************************************************
+creatung table with uniontype data type :
+  create table union_data(col uniontype<int,string,array<int>,map<int,string>,struct<name:string,marks:array<int>>>);
+Inserting data into table :
+  insert into union_data select create_union(0,100,'XYZ',array(10,20),map(10,'IT',20,'HR'),named_struct('name','ABC','marks',array(40,60,90)));
+  insert into union_data select create_union(0,200,'XYZ',array(10,20),map(10,'IT',20,'HR'),named_struct('name','ABC','marks',array(40,60,90)));
+  insert into union_data select create_union(1,100,'XYZ',array(10,20),map(10,'IT',20,'HR'),named_struct('name','ABC','marks',array(40,60,90)));
+  insert into union_data select create_union(2,100,'XYZ',array(10,20),map(10,'IT',20,'HR'),named_struct('name','ABC','marks',array(40,60,90)));
+  insert into union_data select create_union(3,100,'XYZ',array(10,20),map(10,'IT',20,'HR'),named_struct('name','ABC','marks',array(40,60,90)));
+  insert into union_data select create_union(4,100,'XYZ',array(10,20),map(10,'IT',20,'HR'),named_struct('name','ABC','marks',array(40,60,90)));
+  insert into union_data select create_union(4,100,'XYZ',array(10,20),map(10,'IT',20,'HR'),named_struct('name','ABC','marks',array(50,30,80)));
+selecting uniontype data from the table:
+  select * from union_data; 
+  {3:{10:"IT",20:"HR"}}
+  {4:{"name":"ABC1","marks":[50,30,80]}}
+  {0:100}
+  {4:{"name":"ABC","marks":[40,60,90]}}
+  {1:"XYZ"}
+  {0:200}
+  {2:[10,20]}
+unpacking the uniontype elements :  
+  select extract_union(col,0) from union_data where extract_union(col,0) is not null;
+  select extract_union(col,4).name, extract_union(col,4).marks[0], extract_union(col,4).marks[1], extract_union(col,4).marks[2] from union_data where extract_union(col,4) is not null;
+
 
