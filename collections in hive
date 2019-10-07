@@ -8,7 +8,7 @@ Inserting data into table :
   insert into map_data select map(1,'A',2,'B');
 selecting map data from the table:
   select * from map_data; --{1:"A",2:"B"}
-unpacking the map data type :  
+unpacking the map elements :  
   select map_keys(col)[0],map_keys(col)[1],map_values(col)[0], map_values(col)[1] from map_data;
 
 
@@ -21,10 +21,20 @@ Inserting data into table :
   insert into array_data select array(10,20,30,40);
 selecting array data from the table:
   select * from array_data; --[10,20,30,40]
-unpacking the array data type :  
+unpacking the array elements :  
   select col[0],col[1],col[2],col[3] from array_data;
   
   
-
+******************************************************************************************************************************
+                                                      STRUCT DATA TYPE:
+******************************************************************************************************************************
+creatung table with struct data type :
+  create table struct_data(col struct<name:string,subject:array<string>,marks:map<string,int>>);
+Inserting data into table :
+  insert into struct_data select named_struct('name','student1','subject',array('subject1','subject2'),'marks',map('maths',90,'hindi',90));
+selecting struct data from the table:
+  select * from struct_data; --{"name":"student1","subject":["subject1","subject2"],"marks":{"maths":90,"hindi":90}}
+unpacking the array elements :  
+  select col.name,col.subject[0],col.subject[1],map_keys(col.marks)[0],map_keys(col.marks)[1],map_values(col.marks)[0],map_values(col.marks)[1] from struct_data;
 
 
